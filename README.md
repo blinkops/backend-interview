@@ -1,4 +1,4 @@
-# blink-backend-interview
+# Blink-backend-interview
 Take home exercise for a BE position
 ## Problem Definition
 
