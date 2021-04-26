@@ -35,4 +35,4 @@ Behavior
 ## Deliverables
 
 The code should be written in Python or Golang and the api should be called using a REST call like this: /patients?location=<location>
-It should contain documentation and unit tests that show your understanding of the problem. Once you&#39;re finished, submit a PR to this repo.
+It should contain documentation and unit tests that show your understanding of the problem. Once you&#39;re finished, submit a PR to this repo and add havivrosh as the reviewer.
