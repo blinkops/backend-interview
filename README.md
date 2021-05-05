@@ -12,12 +12,12 @@ Given patient demographics and behavioral data (see sample-data/patients.json), 
 
 Demographic
 
-- age  (weighted 10%)
+- age  (weighted 10%) (the older the patient, the higher priority it gets)
 - distance to practice (weighted 10%)
 
 Behavior
 
-- number of accepted offers (weighted 30%)
+- number of accepted offers (weighted 30%) 
 - number of cancelled offers (weighted 30%)
 - reply time (how long it took for patients to reply) (weighted 20%)
 
