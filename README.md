@@ -12,14 +12,14 @@ Given patient demographics and behavioral data (see sample-data/patients.json), 
 
 Demographic
 
-- age  (weighted 10%) (the older the patient, the higher priority it gets)
-- distance to practice (weighted 10%)
+- age  (weighted 10%) (the older the patient->the higher priority it gets)
+- distance to practice (weighted 10%) (closer patients->have higher priority)
 
 Behavior
 
-- number of accepted offers (weighted 30%) 
-- number of cancelled offers (weighted 30%)
-- reply time (how long it took for patients to reply) (weighted 20%)
+- number of accepted offers (weighted 30%) (high number of accepted offers->higher priority)
+- number of cancelled offers (weighted 30%) (less cancellations->higher priority)
+- reply time (how long it took for patients to reply) (weighted 20%) (quicker reply time->higher priority)
 
 ## Patient Model
 
