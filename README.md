@@ -1,38 +1,79 @@
-# Blink-backend-interview
-Take home exercise for a BE position
-## Problem Definition
+# Blink backend interview
 
-A busy hospital has a list of patients waiting to see a doctor. The waitlist is created sequentially (e.g. patients are added in a fifo order) from the time the patient calls.  Once there is an availability, the front desk calls each patient to offer the appointment in the order they were added to the waitlist. The staff member from the front desk has noticed that she wastes a lot of time trying to find a patient from the waitlist since they&#39;re often not available, don&#39;t pick up the phone, etc.  She would like to generate a better list that will increase her chances of finding a patient in the first few calls.
+* [Installation](#installation)
+  * [Requirements](#Requirements)
+  * [Python virtual environment](#python-virtual-environment)
+* [Run the project](#run-the-project)
+* [API](#api)
+	* [API documentation](#api-documentation)
+	* [API requests](#api-requests)
+* [Projects errors handling](#projects-errors-handling)  
+* [Projects errors handling](#projects-errors-handling)
+* [Coding style](#coding-style)
+* [Running tests](#running-tests)  
 
-## Interview Task
 
-Given patient demographics and behavioral data (see sample-data/patients.json), create an algorithm that will process a set of historical patient data and compute a score for each patient that (1 as the lowest, 10 as the highest) that represents the chance of a patient accepting the offer off the waitlist. Take in consideration that patients who have little behavior data should be randomly added to the top list as to give them a chance to be selected. Expose an api that takes a facility's location as input and returns an ordered list of 10 patients who will most likely accept the appointment offer.
+## Installation
 
-## Weighting Categories
+### Requirements
 
-Demographic
+The project works with Python 3.8 or higher version and pip3 version 21.1.3 or higher 
 
-- age  (weighted 10%) (the older the patient->the higher priority it gets)
-- distance to practice (weighted 10%) (closer patients->have higher priority)
+### Python virtual environment 
 
-Behavior
+**Create a virtual environment**
 
-- number of accepted offers (weighted 30%) (high number of accepted offers->higher priority)
-- number of cancelled offers (weighted 30%) (less cancellations->higher priority)
-- reply time (how long it took for patients to reply) (weighted 20%) (quicker reply time->higher priority)
+Open the project folder and then execute:
+```shell
+  python3 -m venv venv
+  source venv/bin/activat
+```
 
-## Patient Model
+**Install the necessary packages**
+```shell
+  pip3 install -r requirements.txt
+```
 
-- ID
-- Age (in years)
-- location
-  - Lat
-  - long
-- acceptedOffers (integer)
-- canceledOffers (integer)
-- averageReplyTime (integer, in seconds)
+## Run the project
 
-## Deliverables
+**Start the web services:**
+```shell
+  uvicorn main:app --reload
+```
 
-The code should be written in Python or Golang and the api should be called using a REST call like this: /patients?location=<location>
-It should contain documentation and unit tests that show your understanding of the problem. Once you&#39;re finished, submit a PR to this repo and add havivrosh as the reviewer.
+## API
+
+### API documentation
+
+You can view the API documentation and do test by opening the browser and loading the local project URL: http://localhost:8000/docs 
+
+### API requests
+
+You can use the REST API by opening local project URL in the following format - http://localhost:8000/patients?location=latitude,longitude
+
+## Projects errors handling
+
+Exceptions during the processing of the file with patients do not stop the application.\
+If a general error occurs with the patients data file, the list of patients will be empty, but the application will continue to work.\
+If there is an error with missing or wrong data for one patient, the patient will be ignored.\
+All errors included in the python logging system.\
+For this project, errors displayed in the console, no file configured to save them. 
+
+## Coding style
+
+The project follows the [PEP8](https://www.python.org/dev/peps/pep-0008/) coding standard except the line length.\
+The limit of line length for this project is 120 character per line. \
+
+**Test the coding style**
+
+```shell
+  flake8 --max-line-length 120 patients/
+```
+
+## Running tests
+
+You can run tests with the following command:
+
+```shell
+  python -m unittest discover
+```
