@@ -1,0 +1,119 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a very simple project to ordering a list of patients according to certain criteria",
+        "title": "Blink backend interview REST API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Atanas Mavrov"
+        },
+        "license": {
+            "name": "GPL3",
+            "url": "https://www.gnu.org/licenses/gpl-3.0.html"
+        },
+        "version": "0.0.1"
+    },
+    "host": "localhost:8000",
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Return help data",
+                "consumes": [
+                    "text/plain"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "/"
+                ],
+                "summary": "Get root URL",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/patients": {
+            "get": {
+                "description": "Get the patients with the highest rating by geographical coordinates",
+                "consumes": [
+                    "text/plain"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "/patients"
+                ],
+                "summary": "Top rated patients",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "32.109333,34.855499",
+                        "description": "latitude,longitude",
+                        "name": "location",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/patients.Patient"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "patients.Patient": {
+            "type": "object",
+            "properties": {
+                "acceptedOffers": {
+                    "type": "number"
+                },
+                "age": {
+                    "type": "number"
+                },
+                "averageReplyTime": {
+                    "type": "number"
+                },
+                "canceledOffers": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "location": {
+                    "$ref": "#/definitions/patients.location"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "number"
+                }
+            }
+        },
+        "patients.location": {
+            "type": "object",
+            "properties": {
+                "latitude": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "longitude": {
+                    "type": "string",
+                    "example": "0"
+                }
+            }
+        }
+    }
+}

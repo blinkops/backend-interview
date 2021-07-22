@@ -1,0 +1,80 @@
+definitions:
+  patients.Patient:
+    properties:
+      acceptedOffers:
+        type: number
+      age:
+        type: number
+      averageReplyTime:
+        type: number
+      canceledOffers:
+        type: number
+      id:
+        type: string
+      location:
+        $ref: '#/definitions/patients.location'
+      name:
+        type: string
+      priority:
+        type: number
+    type: object
+  patients.location:
+    properties:
+      latitude:
+        example: "0"
+        type: string
+      longitude:
+        example: "0"
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact:
+    name: Atanas Mavrov
+  description: This is a very simple project to ordering a list of patients according
+    to certain criteria
+  license:
+    name: GPL3
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Blink backend interview REST API
+  version: 0.0.1
+paths:
+  /:
+    get:
+      consumes:
+      - text/plain
+      description: Return help data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: Get root URL
+      tags:
+      - /
+  /patients:
+    get:
+      consumes:
+      - text/plain
+      description: Get the patients with the highest rating by geographical coordinates
+      parameters:
+      - default: 32.109333,34.855499
+        description: latitude,longitude
+        in: query
+        name: location
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/patients.Patient'
+            type: array
+      summary: Top rated patients
+      tags:
+      - /patients
+swagger: "2.0"
