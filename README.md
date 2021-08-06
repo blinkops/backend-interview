@@ -1,38 +1,61 @@
-# Blink-backend-interview
-Take home exercise for a BE position
-## Problem Definition
+# Blink Task - Patients List
 
-A busy hospital has a list of patients waiting to see a doctor. The waitlist is created sequentially (e.g. patients are added in a fifo order) from the time the patient calls.  Once there is an availability, the front desk calls each patient to offer the appointment in the order they were added to the waitlist. The staff member from the front desk has noticed that she wastes a lot of time trying to find a patient from the waitlist since they&#39;re often not available, don&#39;t pick up the phone, etc.  She would like to generate a better list that will increase her chances of finding a patient in the first few calls.
+## Installation
 
-## Interview Task
+Create virtual environment - open the project folder and execute:
+```shell
+python3 -m venv venv
+```
 
-Given patient demographics and behavioral data (see sample-data/patients.json), create an algorithm that will process a set of historical patient data and compute a score for each patient that (1 as the lowest, 10 as the highest) that represents the chance of a patient accepting the offer off the waitlist. Take in consideration that patients who have little behavior data should be randomly added to the top list as to give them a chance to be selected. Expose an api that takes a facility's location as input and returns an ordered list of 10 patients who will most likely accept the appointment offer.
+Install the project's dependencies:
+```shell
+pip3 install -r requirements.txt
+```
 
-## Weighting Categories
+## Usage
 
-Demographic
+Start the service:
+```shell
+flask run
+```
 
-- age  (weighted 10%) (the older the patient->the higher priority it gets)
-- distance to practice (weighted 10%) (closer patients->have higher priority)
+## Testing
 
-Behavior
+Run the tests:
+```shell
+python3 -m unittest
+```
 
-- number of accepted offers (weighted 30%) (high number of accepted offers->higher priority)
-- number of cancelled offers (weighted 30%) (less cancellations->higher priority)
-- reply time (how long it took for patients to reply) (weighted 20%) (quicker reply time->higher priority)
+You can run tests with more detail (higher verbosity) by passing in the -v flag:
+```shell
+python3 -m unittest -v 
+```
 
-## Patient Model
+## Implementations Details
 
-- ID
-- Age (in years)
-- location
-  - Lat
-  - long
-- acceptedOffers (integer)
-- canceledOffers (integer)
-- averageReplyTime (integer, in seconds)
+### General information
 
-## Deliverables
+Each category has a maximum value that grants the maximum score for the category (specified in constants.py).
+The scores will increase / decrease linearly between 0 and the max value.
+Any number above the specified max will grant the patient the maximum score for this category.
+For example: Age 0 grants 0 score. Age 80 grants the max score (AGE_WEIGHT). Age 150 also grants the max score.
+0 reply time will grant max score. 1200 seconds reply time will grant 0 score. 3500 reply time will also grant 0 score.
 
-The code should be written in Python or Golang and the api should be called using a REST call like this: /patients?location=<location>
-It should contain documentation and unit tests that show your understanding of the problem. Once you&#39;re finished, submit a PR to this repo and add havivrosh as the reviewer.
+### Patients with missing / erroneous attributes
+
+If a patient has missing / erroneous attributes (this also answers to little behavioral data), he will be given a random score for the missing / erroneous category between 0 and MAX_CATEGORY_WEIGHT.
+This way, patients with little / no behavioral data will be given a chance to be selected.
+This also handles errors, because if a patient has erroneous data, he can still be selected.
+For example: If a patient has no age / age is not an integer ('82a') he will get a random age score.
+
+### Performance
+
+In order to optimize the app's performance, the patients list is preproccessed and each patient is given a score (without taking distance into account). On each request, only the distance score needs to be calculated.
+The patients list still has to be sorted in each request, meaning it still runs in O(nlogn).
+* Note: If the data was stored in a database, I would have created a trigger that calculates the score without distance on insert/update. The current solution doesn't handle changes in the patients list.
+
+## Error Handling
+
+Any exception or error in proccessing a patient's data does not cause the app to stop.
+To make sure that all of the patients have a chance to be selected, even patients with erroneous data will get a random score and the app will continue running normally.
+The app does not log errors - this could be a future improvement.
