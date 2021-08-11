@@ -1,0 +1,61 @@
+desc: ""
+tags: []
+name: goto test playbook
+steps:
+  - text: "# New Section"
+    selected: false
+    showAction: false
+  - id: Step1
+    desc: Description
+    name: Step1
+    inputs:
+      code: |
+        import time
+        print ('Step1')
+    selected: false
+    action: core.python
+    goto:
+      Step3: "{{ true }}"
+      Step2: "{{ true }}"
+  - id: Step2
+    desc: Description
+    name: Step2
+    inputs:
+      code: |
+        import time
+        print (context['steps.last.output'] + 'Step2' );
+    selected: false
+    action: core.python
+    goto:
+      end: "{{ true }}"
+    showAction: false
+  - id: Step3
+    desc: Description
+    name: Step3
+    inputs:
+      code: |
+        import time
+        print (context['steps.last.output'] + 'Step3' );
+    selected: false
+    action: core.python
+    goto:
+      Step4: "{{ true }}"
+  - id: Step4
+    desc: Description
+    name: Step4
+    inputs:
+      code: |
+        import time
+        print (context['steps.last.output'] + 'Step4' );
+    selected: false
+    action: core.python
+inputs:
+  param1: "1"
+outputs:
+  step4: "{{ steps.Step4.output }}"
+  step3: "{{ steps.Step3.output }}"
+  
+private_execution_environment_settings:
+  kubernetes:
+    ? namespace
+    ? secrets
