@@ -17,6 +17,8 @@ Now that the server is running, run the ```api_call.py``` file, either through t
 
 The aforementioned file will prompt you to enter a location, in the following format: ```latitude,longitude```. Once the location is entered, a GET request will be sent to the API with the given location and the result will be printed.
 
+You can also access the API through your browser. Simply type ```http://127.0.0.1:5000/patients?location=``` with a location in the format ```latitude,longitude``` in your search bar, and the result will be printed.
+
 ## Running the tests
 
 First, run the ```patients_api.py``` file, either through the command prompt or your IDE. If you're working with the command prompt, open it and navigate to the project folder, then execute the following command:
