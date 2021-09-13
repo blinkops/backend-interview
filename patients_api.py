@@ -16,6 +16,8 @@ class Patients(Resource):
             patients_logic.get_top_list(location)
         except Exception as e:
             abort(404, description=e.__str__())
+            
+        return patients_logic.get_top_list(location)
 
 
 api.add_resource(Patients, '/patients')
